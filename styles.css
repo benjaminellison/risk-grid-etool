@@ -1,0 +1,378 @@
+/* ============================================================
+   Risk Heat Map — dark classroom UI
+   ============================================================ */
+
+:root {
+  /* Surfaces */
+  --bg:            #0b1b2e;
+  --bg-card:       #112640;
+  --bg-elevated:   #1a3250;
+  --border:        #223b5a;
+
+  /* Text */
+  --text:          #e8eef7;
+  --text-dim:      #9fb2c9;
+  --text-muted:    #6a7f98;
+
+  /* Accents */
+  --accent:        #4aa3e5;
+  --red:           #e83d3d;
+  --yellow-warn:   #e5c744;
+
+  /* Heat ramp — low (green) → high (red). 7 stops. */
+  --h1: #1b8a4b;  /* score 1–2    */
+  --h2: #4aa754;  /* score 3–4    */
+  --h3: #8ab83f;  /* score 5–6    */
+  --h4: #d0b338;  /* score 8–9    */
+  --h5: #e08a2a;  /* score 10–12  */
+  --h6: #d9552b;  /* score 15–16  */
+  --h7: #c72a2a;  /* score 20–25  */
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Inter', system-ui, -apple-system, Segoe UI, sans-serif;
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ---------- App shell ---------- */
+.app {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 60px;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 60px 48px;
+  align-items: start;
+}
+
+@media (max-width: 960px) {
+  .app {
+    grid-template-columns: 1fr;
+    gap: 40px;
+    padding: 32px 20px;
+  }
+}
+
+/* ---------- Left panel ---------- */
+.panel { min-width: 0; }
+
+.eyebrow {
+  color: var(--accent);
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  margin-bottom: 18px;
+}
+
+h1 {
+  font-size: 2.75rem;
+  font-weight: 800;
+  line-height: 1.1;
+  margin: 0 0 36px 0;
+  letter-spacing: -0.01em;
+}
+
+/* ---------- Risk A/B/C definitions ---------- */
+.risk-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 28px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.risk-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 14px 16px;
+}
+.risk-chip {
+  flex: 0 0 auto;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: #0a1628;
+  font-weight: 800;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 8px rgba(74, 163, 229, 0.25);
+}
+.risk-def { flex: 1; min-width: 0; }
+.risk-def strong {
+  display: block;
+  color: var(--text);
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 2px;
+}
+.risk-def p {
+  margin: 0;
+  color: var(--text-dim);
+  font-size: 0.95rem;
+  line-height: 1.4;
+}
+
+/* ---------- Status card ---------- */
+.status-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 14px 20px;
+  margin-bottom: 18px;
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+.status-row {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.status-label {
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  letter-spacing: 0.18em;
+  font-weight: 600;
+}
+#state-label {
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--text);
+}
+#timer {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--accent);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---------- Instructor panel ---------- */
+#instructor-panel {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 18px;
+  padding: 12px;
+  background: rgba(229, 199, 68, 0.05);
+  border: 1px solid rgba(229, 199, 68, 0.3);
+  border-radius: 10px;
+}
+.hidden { display: none !important; }
+
+/* ---------- Tray ---------- */
+.tray {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 16px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+.tray-label {
+  color: var(--text-dim);
+  font-size: 0.9rem;
+  flex: 1 1 100%;
+  margin-bottom: 4px;
+}
+#tray-markers {
+  display: flex;
+  gap: 12px;
+  position: relative;
+  min-height: 48px;
+  align-items: center;
+  flex: 1;
+}
+.tray-slot {
+  width: 48px;
+  height: 48px;
+  position: relative;
+}
+
+/* ---------- Buttons ---------- */
+button {
+  cursor: pointer;
+  padding: 10px 16px;
+  border: 1px solid var(--border);
+  background: var(--bg-elevated);
+  color: var(--text);
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  font-family: inherit;
+  transition: background 0.15s, border-color 0.15s, transform 0.05s;
+}
+button:hover:not(:disabled) {
+  background: #244063;
+  border-color: #355173;
+}
+button:active:not(:disabled) { transform: translateY(1px); }
+button:disabled { opacity: 0.4; cursor: not-allowed; }
+
+#btn-submit {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #0a1628;
+  font-weight: 700;
+  margin-left: auto;
+  padding: 10px 22px;
+}
+#btn-submit:hover:not(:disabled) {
+  background: #5fb3f0;
+  border-color: #5fb3f0;
+}
+
+#session-info {
+  margin-top: 20px;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+  word-break: break-all;
+}
+
+/* ============================================================
+   Grid section (right column)
+   ============================================================ */
+
+.grid-section { min-width: 0; }
+
+.grid-layout {
+  display: grid;
+  grid-template-columns: 26px 28px minmax(0, 1fr);
+  grid-template-rows: minmax(0, 1fr) 26px 24px;
+  gap: 10px;
+  max-width: 640px;
+  margin: 0 auto;
+}
+
+.y-axis-title {
+  grid-column: 1;
+  grid-row: 1;
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  color: var(--text-muted);
+  font-size: 0.78rem;
+  letter-spacing: 0.2em;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.y-numbers {
+  grid-column: 2;
+  grid-row: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  color: var(--text-dim);
+  font-size: 0.95rem;
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+}
+
+.grid-area {
+  grid-column: 3;
+  grid-row: 1;
+  aspect-ratio: 1 / 1;
+  position: relative;
+}
+
+.x-numbers {
+  grid-column: 3;
+  grid-row: 2;
+  display: flex;
+  justify-content: space-around;
+  color: var(--text-dim);
+  font-size: 0.95rem;
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+}
+
+.x-axis-title {
+  grid-column: 3;
+  grid-row: 3;
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 0.78rem;
+  letter-spacing: 0.2em;
+  font-weight: 600;
+}
+
+/* ---------- The 5×5 grid ---------- */
+#grid {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  grid-template-rows: repeat(5, 1fr);
+  gap: 8px;
+}
+
+.cell {
+  border-radius: 10px;
+  transition: filter 0.15s;
+}
+
+/* Heat buckets — wired to --h1..--h7 in :root */
+.cell[data-heat="1"] { background: var(--h1); }
+.cell[data-heat="2"] { background: var(--h2); }
+.cell[data-heat="3"] { background: var(--h3); }
+.cell[data-heat="4"] { background: var(--h4); }
+.cell[data-heat="5"] { background: var(--h5); }
+.cell[data-heat="6"] { background: var(--h6); }
+.cell[data-heat="7"] { background: var(--h7); }
+
+/* ============================================================
+   Markers
+   ============================================================ */
+.marker {
+  position: absolute;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 1rem;
+  color: #fff;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.45), 0 0 0 2px rgba(255,255,255,0.15) inset;
+  user-select: none;
+  touch-action: none;
+  cursor: grab;
+  transform: translate(-50%, -50%);
+  border: 2px solid rgba(255, 255, 255, 0.9);
+  z-index: 5;
+}
+.marker:active { cursor: grabbing; }
+.marker.locked { cursor: default; }
+
+.marker.other {
+  opacity: 0.85;
+  width: 34px;
+  height: 34px;
+  z-index: 4;
+}
+
+/* SVG sizing inside markers + chips */
+.marker svg { width: 22px; height: 22px; }
+.marker.other svg { width: 18px; height: 18px; }
+.risk-chip svg { width: 18px; height: 18px; }

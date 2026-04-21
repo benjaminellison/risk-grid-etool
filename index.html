@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Risk Heat Map</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="app">
+
+    <!-- Left column: info + controls -->
+    <aside class="panel">
+      <div class="eyebrow">THE TOOL</div>
+      <h1>The Risk Heat Map</h1>
+
+      <!-- Risk definitions — edit these to match your scenario.
+           Chip SVGs stay in sync with the ICONS map in app.js. -->
+      <ul class="risk-list">
+        <li>
+          <span class="risk-chip" data-risk-id="A">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-label="Rain cloud">
+              <path d="M16 13a4 4 0 0 0 0-8 6 6 0 0 0-11.3 2.1A4 4 0 0 0 6 15h10Z"/>
+              <path d="m8 19-1 2"/><path d="m12 19-1 2"/><path d="m16 19-1 2"/>
+            </svg>
+          </span>
+          <div class="risk-def">
+            <strong>Risk A</strong>
+            <p>Describe risk A here.</p>
+          </div>
+        </li>
+        <li>
+          <span class="risk-chip" data-risk-id="B">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-label="Alarm clock">
+              <circle cx="12" cy="13" r="8"/>
+              <path d="M12 9v4l2 2"/>
+              <path d="M5 3 2 6"/><path d="m22 6-3-3"/>
+              <path d="M6.38 18.7 4 21"/><path d="M17.64 18.67 20 21"/>
+            </svg>
+          </span>
+          <div class="risk-def">
+            <strong>Risk B</strong>
+            <p>Describe risk B here.</p>
+          </div>
+        </li>
+        <li>
+          <span class="risk-chip" data-risk-id="C">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-label="Security badge">
+              <path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/>
+              <path d="m9 12 2 2 4-4"/>
+            </svg>
+          </span>
+          <div class="risk-def">
+            <strong>Risk C</strong>
+            <p>Describe risk C here.</p>
+          </div>
+        </li>
+      </ul>
+
+      <!-- Session status -->
+      <div class="status-card">
+        <div class="status-row">
+          <span class="status-label">STATUS</span>
+          <span id="state-label">Loading…</span>
+        </div>
+        <div class="status-row">
+          <span class="status-label">TIMER</span>
+          <span id="timer">--</span>
+        </div>
+      </div>
+
+      <!-- Instructor controls -->
+      <div id="instructor-panel" class="hidden">
+        <button id="btn-start">Start Session</button>
+        <button id="btn-reveal">Reveal Now</button>
+        <button id="btn-reset">Reset</button>
+      </div>
+
+      <!-- Marker tray -->
+      <div class="tray">
+        <div class="tray-label">Drag A, B, C onto the grid</div>
+        <div id="tray-markers"></div>
+        <button id="btn-submit" disabled>Submit</button>
+      </div>
+
+      <p id="session-info"></p>
+    </aside>
+
+    <!-- Right column: the grid with axes -->
+    <section class="grid-section">
+      <div class="grid-layout">
+        <div class="y-axis-title">IMPACT ↑</div>
+        <div class="y-numbers">
+          <span>5</span><span>4</span><span>3</span><span>2</span><span>1</span>
+        </div>
+        <div class="grid-area">
+          <div id="grid"></div>
+        </div>
+        <div class="x-numbers">
+          <span>1</span><span>2</span><span>3</span><span>4</span><span>5</span>
+        </div>
+        <div class="x-axis-title">← PROBABILITY</div>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- Supabase JS client via CDN (explicit UMD build → exposes window.supabase) -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
