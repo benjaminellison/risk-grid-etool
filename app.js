@@ -33,10 +33,12 @@ const ICONS = {
         <path d="M5 3 2 6"/><path d="m22 6-3-3"/>
         <path d="M6.38 18.7 4 21"/><path d="M17.64 18.67 20 21"/>
       </svg>`,
-  // C — security badge (shield with check)
-  C: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-label="Security badge">
-        <path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/>
-        <path d="m9 12 2 2 4-4"/>
+  // C — ID / security badge
+  C: `<svg viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-linecap="round" aria-label="Security badge">
+        <rect x="4" y="6" width="20" height="16" rx="3" stroke-width="2.2" opacity="0.9"/>
+        <rect x="10" y="3" width="8" height="5" rx="1.5" stroke-width="2" opacity="0.8"/>
+        <circle cx="14" cy="15" r="3" stroke-width="2" opacity="0.9"/>
+        <path d="M9 22c0-2.761 2.239-4 5-4s5 1.239 5 4" stroke-width="2" opacity="0.9"/>
       </svg>`,
 };
 
