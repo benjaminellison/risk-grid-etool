@@ -106,13 +106,10 @@ const instructorPnl  = document.getElementById('instructor-panel');
 
 // Bucket a score (1..25) into one of 7 heat stops (matches --h1..--h7 in CSS).
 function heatBucket(score) {
-  if (score <= 2)  return 1;
-  if (score <= 4)  return 2;
-  if (score <= 6)  return 3;
-  if (score <= 9)  return 4;
-  if (score <= 12) return 5;
-  if (score <= 16) return 6;
-  return 7;
+  if (score <= 3)  return 1; // green
+  if (score <= 6)  return 3; // yellow
+  if (score <= 14) return 6; // orange
+  return 7; // red
 }
 
 // Build 5x5 cells. Top row = high impact, bottom row = low impact.
@@ -127,6 +124,10 @@ function buildGridCells() {
       const cell = document.createElement('div');
       cell.className = 'cell';
       cell.dataset.heat = String(heatBucket(score));
+      if(impact == 5 && prob == 1){cell.dataset.heat = "6"} // top left orange
+      if(impact == 1 && prob == 5){cell.dataset.heat = "6"} // bottom right orange
+      if(impact == 2 && prob == 2){cell.dataset.heat = "1"} // green
+      if(impact == 5 && prob == 2){cell.dataset.heat = "7"} // red
       gridEl.appendChild(cell);
     }
   }
