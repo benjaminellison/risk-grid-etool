@@ -15,7 +15,7 @@ const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
 /* ---------- Constants ---------- */
 const RISK_IDS = ['A', 'B', 'C'];
-const TIMER_SECONDS = 60;
+const TIMER_SECONDS = 120;
 const DRAG_THROTTLE_MS = 150;
 
 // Inline SVG icons for each risk. Use currentColor so fill/stroke inherits
