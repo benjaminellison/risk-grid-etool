@@ -107,7 +107,7 @@ const instructorPnl  = document.getElementById('instructor-panel');
 // Bucket a score (1..25) into one of 7 heat stops (matches --h1..--h7 in CSS).
 function heatBucket(score) {
   if (score <= 3)  return 1; // green
-  if (score <= 6)  return 3; // yellow
+  if (score <= 6)  return 4; // yellow
   if (score <= 14) return 6; // orange
   return 7; // red
 }
